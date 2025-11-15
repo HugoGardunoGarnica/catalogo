@@ -1,0 +1,130 @@
+
+:root{
+  --bg: #f6f7fb;
+  --card: #ffffff;
+  --muted: #6b7280;
+  --accent: #0f62fe;
+  --radius: 12px;
+  --gap: 18px;
+  --max-width: 1280px;
+  --image-max-height: 200px;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family: Inter, sans-serif;
+  background:var(--bg);
+  color:#111827;
+}
+.header-flex{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+.actions{
+  display:flex;
+  gap:10px;
+  align-items:center;
+}
+.btn{
+  padding:8px 14px;
+  border-radius:8px;
+  cursor:pointer;
+  border:none;
+  font-weight:600;
+}
+.btn-primary{
+  background:var(--accent);
+  color:#fff;
+}
+.btn-secondary{
+  background:#e4e6ea;
+}
+.search{
+  padding:8px 12px;
+  border:1px solid #ccc;
+  border-radius:8px;
+}
+.container{
+  max-width:var(--max-width);
+  margin:auto;
+  padding:20px;
+}
+.grid{
+  display:grid;
+  gap:var(--gap);
+  grid-template-columns:repeat(auto-fill,minmax(240px,1fr));
+}
+.card{
+  background:var(--card);
+  border-radius:var(--radius);
+  box-shadow:0 4px 10px rgba(0,0,0,.08);
+  overflow:hidden;
+}
+.image-wrap{
+  aspect-ratio:4/3;
+  background:#e6e8ef;
+  max-height:var(--image-max-height);
+}
+.image-wrap img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+.card-body{
+  padding:14px;
+}
+.product-title{
+  margin:0;
+  font-size:1rem;
+  font-weight:600;
+}
+.product-desc{
+  font-size:.9rem;
+  color:var(--muted);
+  margin:6px 0;
+}
+.price{
+  font-weight:bold;
+  color:#0b74d1;
+}
+.admin-panel{
+  position:fixed;
+  top:0; left:0;
+  width:100%; height:100%;
+  background:rgba(0,0,0,.65);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  padding:20px;
+}
+.admin-panel.hidden{
+  display:none;
+}
+.panel-content{
+  background:white;
+  padding:25px;
+  border-radius:14px;
+  width:100%;
+  max-width:420px;
+  box-shadow:0 10px 30px rgba(0,0,0,.3);
+}
+.panel-content h2{
+  margin-top:0;
+}
+.panel-content form{
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+}
+.panel-content input,
+.panel-content textarea{
+  width:100%;
+  padding:8px;
+  border:1px solid #ccc;
+  border-radius:8px;
+}
+.close-btn{
+  margin-top:10px;
+  width:100%;
+}
