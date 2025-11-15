@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Catálogo LTI — Productos</title>
+  <link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-flex">
+      <h1 class="brand">LTI Catalog</h1>
+      <nav class="actions">
+        <input id="search" class="search" type="search" placeholder="Buscar producto..." aria-label="Buscar productos">
+        <button class="btn btn-secondary" id="open-admin">Admin</button>
+      </nav>
+    </div>
+  </header>
+  <main class="container">
+    <h2 class="section-title">Productos disponibles</h2>
+    <div class="grid" id="product-grid"></div>
+  </main>
+  <section class="admin-panel hidden" id="admin-panel">
+    <div class="panel-content">
+      <h2>Panel de administrador</h2>
+      <form id="product-form">
+        <label>Nombre del producto
+          <input required type="text" id="prod-name">
+        </label>
+        <label>Descripción
+          <textarea required id="prod-desc"></textarea>
+        </label>
+        <label>Precio (MXN)
+          <input required type="number" id="prod-price">
+        </label>
+        <label>URL de imagen
+          <input required type="url" id="prod-img">
+        </label>
+        <button type="submit" class="btn btn-primary">Agregar producto</button>
+      </form>
+      <button id="close-admin" class="btn btn-secondary close-btn">Cerrar</button>
+    </div>
+  </section>
+  <footer class="site-footer">
+    <div class="container">
+      <small>© <span id="year"></span> LTI — Todos los derechos reservados</small>
+    </div>
+  </footer>
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+    const adminPanel = document.getElementById('admin-panel');
+    const btnOpenAdmin = document.getElementById('open-admin');
+    const btnCloseAdmin = document.getElementById('close-admin');
+    btnOpenAdmin.onclick = () => adminPanel.classList.remove('hidden');
+    btnCloseAdmin.onclick = () => adminPanel.classList.add('hidden');
+    const productGrid = document.getElementById("product-grid");
+    let products = JSON.parse(localStorage.getItem("products")) || [];
+    function renderProducts() {
+      productGrid.innerHTML = "";
+      products.forEach((p, index) => {
+        const card = document.createElement("article");
+        card.className = "card";
+        card.innerHTML = `
+          <div class="media">
+            <div class="image-wrap">
+              <img src="${p.img}" alt="${p.name}">
+            </div>
+          </div>
+          <div class="card-body">
+            <h3 class="product-title">${p.name}</h3>
+            <p class="product-desc">${p.desc}</p>
+            <div class="meta">
+              <span class="price">$${p.price} MXN</span>
+            </div>
+          </div>`;
+        productGrid.appendChild(card);
+      });
+    }
+    renderProducts();
+    const form = document.getElementById("product-form");
+    form.addEventListener("submit", e => {
+      e.preventDefault();
+      const newProduct = {
+        name: document.getElementById("prod-name").value,
+        desc: document.getElementById("prod-desc").value,
+        price: document.getElementById("prod-price").value,
+        img: document.getElementById("prod-img").value
+      };
+
+      products.push(newProduct);
+      localStorage.setItem("products", JSON.stringify(products));
+      renderProducts();
+
+      form.reset();
+      alert("Producto agregado correctamente");
+    });
+    const search = document.getElementById('search');
+    search.addEventListener('input', (e) => {
+      const q = e.target.value.toLowerCase();
+      const cards = productGrid.querySelectorAll(".card");
+      cards.forEach(card => {
+        const title = card.querySelector(".product-title").textContent.toLowerCase();
+        const desc = card.querySelector(".product-desc").textContent.toLowerCase();
+        card.style.display = (title.includes(q) || desc.includes(q)) ? "" : "none";
+      });
+    });
+  </script>
+</body>
+</html>
